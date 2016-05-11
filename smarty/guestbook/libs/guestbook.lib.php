@@ -34,7 +34,7 @@ class Guestbook {
   // PDO database username
   var $dbuser = 'root';
   // PDO database password
-  var $dbpass = 'root';
+  var $dbpass = '';
 
 
   /**
@@ -81,16 +81,27 @@ class Guestbook {
     $this->tpl->display('form_input_add.tpl');
   }
 
-  function getInputsTemplate()
+  function jsonInputsTemplate($sInput)
   {
+    $sRet = '';
+
     $oForms = $this->oForms;
 
     $aInputTypes = $oForms->getInputTypes();
 
-    if(in_array($_POST['type'], array_keys($aInputTypes)))
+    $aInputAttrs = $oForms->getInput($sInput);
+
+    if($aInputAttrs != false)
     {
-        $oForms->
+        $this->tpl->assign('aAttrs', $aInputAttrs);
+        $sRet .= $this->tpl->display('input_attrs.tpl');
     }
+    else
+    {
+      $sRet .= 'no such input';
+    }
+
+    return $sRet;
   }
 
   /**

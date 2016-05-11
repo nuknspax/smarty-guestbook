@@ -8,16 +8,24 @@
  */
 
 // define our application directory
-define('GUESTBOOK_DIR', '/Users/nuknspax/www/nuknspax/guestbook/smarty/guestbook/');
+define('GUESTBOOK_DIR', 'c:/wamp/www/guestbook/smarty/guestbook/');
 // define smarty lib directory
-define('SMARTY_DIR', '/Users/nuknspax/www/nuknspax/smarty/libs/');
+define('SMARTY_DIR', 'c:/wamp/www/smarty/libs/');
 
-define('URL_ROOT', 'http://nk/guestbook/');
+define('URL_ROOT', 'http://localhost/guestbook/');
 // include the setup script
 include(GUESTBOOK_DIR . 'libs/guestbook_setup.php');
+include(GUESTBOOK_DIR . 'libs/utils.php');
 
 // create guestbook object
 $guestbook = new Guestbook;
+
+
+if(bAjax() && isset($_POST) && isset($_POST['input_type']))
+{
+    echo $guestbook->jsonInputsTemplate($_POST['input_type']);
+    exit;
+}
 
 // set the current action
 $_action = isset($_REQUEST['action']) ? $_REQUEST['action'] : 'view';
@@ -47,3 +55,4 @@ switch($_action) {
         $guestbook->displayBook($guestbook->getEntries());        
         break;   
 }
+

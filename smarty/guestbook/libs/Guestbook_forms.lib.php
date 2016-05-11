@@ -33,4 +33,14 @@ class Guestbook_forms
 	{
 		return array_keys($this->aFormInputs);
 	}
+
+	function getInput($s)
+	{
+		if(in_array($s, array_keys($this->aFormInputs)))
+		{
+			return $this->aFormInputs[$s]['attrs'];
+		}
+		else
+			return false;
+	}
 }
